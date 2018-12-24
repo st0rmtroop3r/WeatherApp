@@ -1,4 +1,4 @@
-package com.github.st0rmtroop3r.weather.ui.main
+package com.github.st0rmtroop3r.weather.view_model
 
 import android.arch.lifecycle.ViewModel
 

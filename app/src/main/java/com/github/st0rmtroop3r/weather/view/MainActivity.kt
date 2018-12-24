@@ -1,8 +1,8 @@
-package com.github.st0rmtroop3r.weather
+package com.github.st0rmtroop3r.weather.view
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.github.st0rmtroop3r.weather.ui.main.MainFragment
+import android.support.v7.app.AppCompatActivity
+import com.github.st0rmtroop3r.weather.R
 
 class MainActivity : AppCompatActivity() {
 
