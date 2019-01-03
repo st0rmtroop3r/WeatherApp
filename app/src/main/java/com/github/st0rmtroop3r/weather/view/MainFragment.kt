@@ -1,11 +1,13 @@
 package com.github.st0rmtroop3r.weather.view
 
-import androidx.lifecycle.ViewModelProviders
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProviders
 import com.github.st0rmtroop3r.weather.R
 import com.github.st0rmtroop3r.weather.view_model.MainViewModel
 
@@ -26,8 +28,18 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        val textView = view?.findViewById<TextView>(R.id.message)
         viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
-        // TODO: Use the ViewModel
+
+        viewModel.getCurrentWeather()
+            .observe(this, Observer { weather -> textView?.text = weather.toString() })
+
+        viewModel.getCurrentWeatherError()
+            .observe(this, Observer { error -> textView?.text = "Error: ${error}" })
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.updateData()
+    }
 }
