@@ -1,31 +1,21 @@
-package com.github.st0rmtroop3r.weather.view_model
+package com.github.st0rmtroop3r.weather.viewmodel
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.github.st0rmtroop3r.weather.WeatherApp
 import com.github.st0rmtroop3r.weather.model.entities.WeatherResponse
 import com.github.st0rmtroop3r.weather.model.network.OpenWeatherMapApi
 import kotlinx.coroutines.runBlocking
 import javax.inject.Inject
 
-class MainViewModel : ViewModel() {
+class MainViewModel @Inject constructor(val api : OpenWeatherMapApi) : ViewModel() {
 
-    private val TAG = this.javaClass.simpleName
-
-    @Inject
-    lateinit var api : OpenWeatherMapApi
-
-    private val currentWeather = MutableLiveData<WeatherResponse>()
-    private val currentWeatherError = MutableLiveData<String>()
-
-    init {
-        WeatherApp.appComponent.inject(this)
+    companion object {
+        private val TAG = this::class.java.simpleName
     }
 
-    fun getCurrentWeather() = currentWeather
-
-    fun getCurrentWeatherError() = currentWeatherError
+    val currentWeather = MutableLiveData<WeatherResponse>()
+    val currentWeatherError = MutableLiveData<String>()
 
     fun updateData() {
         val deferredWeather = api.getWeather("Kyiv")

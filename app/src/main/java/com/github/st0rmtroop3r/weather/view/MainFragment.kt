@@ -7,17 +7,24 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.github.st0rmtroop3r.weather.R
-import com.github.st0rmtroop3r.weather.view_model.MainViewModel
+import com.github.st0rmtroop3r.weather.WeatherApp
+import com.github.st0rmtroop3r.weather.viewmodel.MainViewModel
+import javax.inject.Inject
 
 class MainFragment : Fragment() {
 
-    companion object {
-        fun newInstance() = MainFragment()
-    }
+    @Inject
+    lateinit var viewModelFactory : ViewModelProvider.Factory
 
     private lateinit var viewModel: MainViewModel
+
+    companion object {
+        val TAG = MainFragment::class.java.simpleName
+        fun newInstance() = MainFragment()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -28,14 +35,17 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
+        WeatherApp.appComponent.inject(this)
+
         val textView = view?.findViewById<TextView>(R.id.message)
-        viewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
-        viewModel.getCurrentWeather()
-            .observe(this, Observer { weather -> textView?.text = weather.toString() })
+        viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
-        viewModel.getCurrentWeatherError()
-            .observe(this, Observer { error -> textView?.text = "Error: ${error}" })
+        viewModel.currentWeather.observe(this,
+            Observer { weather -> textView?.text = weather.toString() })
+
+        viewModel.currentWeatherError.observe(this,
+            Observer { error -> textView?.text = "Error: ${error}" })
     }
 
     override fun onResume() {
