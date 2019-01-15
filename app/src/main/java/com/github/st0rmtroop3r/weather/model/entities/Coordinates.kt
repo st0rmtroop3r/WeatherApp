@@ -1,11 +1,13 @@
 package com.github.st0rmtroop3r.weather.model.entities
 
+import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
 /**
  *  City geo location.
  *  Data class for OpenWeatherMapApi
  */
+@Entity
 data class Coordinates(
 
     /**
