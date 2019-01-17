@@ -50,6 +50,6 @@ class MainFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        viewModel.updateData()
+        viewModel.onResume()
     }
 }

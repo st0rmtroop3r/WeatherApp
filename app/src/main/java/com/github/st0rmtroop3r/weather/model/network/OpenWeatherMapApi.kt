@@ -29,4 +29,12 @@ interface OpenWeatherMapApi {
         @Query("q") cityName: String,
         @Query("appid") appid: String = apiKey) : Deferred<WeatherResponse>
 
+    /**
+     * Call for current weather data for several city IDs
+     */
+    @GET("/$versionPath/group")
+    fun getWeathers(
+        @Query("id") ids: List<Long>,
+        @Query("appid") appid: String = apiKey) : Deferred<List<WeatherResponse>>
+
 }
