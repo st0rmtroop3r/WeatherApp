@@ -2,6 +2,7 @@ package com.github.st0rmtroop3r.weather.di
 
 import com.github.st0rmtroop3r.weather.view.MainFragment
 import com.github.st0rmtroop3r.weather.viewmodel.MainViewModel
+import com.github.st0rmtroop3r.weather.viewmodel.usecase.GetCurrentWeatherUseCase
 import dagger.Component
 import javax.inject.Singleton
 
@@ -10,4 +11,5 @@ import javax.inject.Singleton
 interface AppComponent {
     fun inject(viewModel: MainViewModel)
     fun inject(fragment: MainFragment)
+    fun inject(useCase: GetCurrentWeatherUseCase)
 }

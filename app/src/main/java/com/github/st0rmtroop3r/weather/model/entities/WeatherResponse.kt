@@ -1,14 +1,12 @@
 package com.github.st0rmtroop3r.weather.model.entities
 
 import androidx.room.ColumnInfo
-import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.google.gson.annotations.SerializedName
 
 /**
  *  Data class for OpenWeatherMapApi
  */
-@Entity(tableName = "Weather")
 data class WeatherResponse (
 
     @PrimaryKey

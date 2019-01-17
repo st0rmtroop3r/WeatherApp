@@ -4,10 +4,10 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.st0rmtroop3r.weather.model.entities.WeatherResponse
-import com.github.st0rmtroop3r.weather.model.repository.WeatherRepository
+import com.github.st0rmtroop3r.weather.viewmodel.usecase.GetCurrentWeatherUseCase
 import javax.inject.Inject
 
-class MainViewModel @Inject constructor(private val weatherRepository: WeatherRepository) : ViewModel() {
+class MainViewModel @Inject constructor(): ViewModel() {
 
     companion object {
         private val TAG = this::class.java.simpleName
@@ -19,9 +19,9 @@ class MainViewModel @Inject constructor(private val weatherRepository: WeatherRe
     fun updateData() {
 
         try {
-            currentWeather.value = weatherRepository.getCurrentWeather("Kyiv")
+            currentWeather.value = GetCurrentWeatherUseCase("Kyiv").execute()
         } catch (e: Exception) {
-            Log.w(TAG, e.message, e)
+            Log.e(TAG, e.message, e)
             currentWeatherError.value = e.message
         }
 

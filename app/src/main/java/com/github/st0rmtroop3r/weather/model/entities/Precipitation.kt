@@ -1,13 +1,11 @@
 package com.github.st0rmtroop3r.weather.model.entities
 
-import androidx.room.Entity
 import com.google.gson.annotations.SerializedName
 
 /**
  * Precipitation volume.
  * Data class for OpenWeatherMapApi
  */
-@Entity
 data class Precipitation(
 
     /**
