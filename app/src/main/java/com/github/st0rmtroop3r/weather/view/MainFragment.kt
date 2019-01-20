@@ -5,16 +5,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
 import com.github.st0rmtroop3r.weather.R
-import com.github.st0rmtroop3r.weather.WeatherApp
 import com.github.st0rmtroop3r.weather.viewmodel.MainViewModel
+import dagger.android.support.DaggerFragment
 import javax.inject.Inject
 
-class MainFragment : Fragment() {
+class MainFragment : DaggerFragment() {
 
     @Inject
     lateinit var viewModelFactory : ViewModelProvider.Factory
@@ -35,7 +34,6 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        WeatherApp.appComponent.inject(this)
 
         val textView = view?.findViewById<TextView>(R.id.message)
 

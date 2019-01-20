@@ -1,11 +1,11 @@
 package com.github.st0rmtroop3r.weather
 
-import android.app.Application
 import android.content.Context
 import com.github.st0rmtroop3r.weather.di.AppComponent
 import com.github.st0rmtroop3r.weather.di.DaggerAppComponent
+import dagger.android.support.DaggerApplication
 
-class WeatherApp : Application() {
+class WeatherApp : DaggerApplication() {
 
     companion object {
         lateinit var appContext: Context
@@ -15,7 +15,11 @@ class WeatherApp : Application() {
     override fun onCreate() {
         super.onCreate()
         appContext = applicationContext
-        appComponent = DaggerAppComponent.create()
+    }
+
+    override fun applicationInjector(): AppComponent {
+        appComponent = DaggerAppComponent.builder().create(this) as AppComponent
+        return appComponent
     }
 
 }

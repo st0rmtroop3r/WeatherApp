@@ -9,7 +9,7 @@ import dagger.Provides
 import javax.inject.Singleton
 
 @Module
-class DbRepository {
+class DbModule {
 
     @Provides
     @Singleton
