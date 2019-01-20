@@ -1,5 +1,6 @@
 package com.github.st0rmtroop3r.weather.di
 
+import com.github.st0rmtroop3r.weather.BuildConfig
 import com.github.st0rmtroop3r.weather.model.network.OpenWeatherMapApi
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import dagger.Module
@@ -36,15 +37,34 @@ class NetworkModule {
 
     @Singleton
     @Provides
-    fun provideOkHttpClient(interceptor: Interceptor): OkHttpClient {
-        return OkHttpClient.Builder().addInterceptor(interceptor).build()
+    fun provideOkHttpClient(interceptors: ArrayList<Interceptor>): OkHttpClient {
+        val clientBuilder = OkHttpClient.Builder()
+        clientBuilder.interceptors().addAll(interceptors)
+        return clientBuilder.build()
     }
 
     @Singleton
     @Provides
-    fun provideInterceptor(): Interceptor {
-        val interceptor = HttpLoggingInterceptor()
-        interceptor.level = HttpLoggingInterceptor.Level.BODY
-        return interceptor
+    fun provideInterceptors(): ArrayList<Interceptor> {
+
+        val apiKeyInterceptor = Interceptor { chain ->
+            val original = chain.request()
+            val originalHttpUrl = original.url()
+
+            val url = originalHttpUrl.newBuilder()
+                .addQueryParameter("appid", BuildConfig.OPEN_WEATHER_MAP_KEY)
+                .build()
+
+            val requestBuilder = original.newBuilder()
+                .url(url)
+
+            val request = requestBuilder.build()
+            return@Interceptor chain.proceed(request)
+        }
+
+        val loggingInterceptor = HttpLoggingInterceptor()
+        loggingInterceptor.level = HttpLoggingInterceptor.Level.BODY
+
+        return arrayListOf(apiKeyInterceptor, loggingInterceptor)
     }
 }
