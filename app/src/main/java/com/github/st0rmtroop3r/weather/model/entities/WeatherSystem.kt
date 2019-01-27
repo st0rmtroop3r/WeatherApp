@@ -7,39 +7,27 @@ import com.google.gson.annotations.SerializedName
  */
 data class WeatherSystem(
 
-    /**
-     * Internal parameter
-     */
+    /** Internal parameter */
     @SerializedName("type")
     val type: Int,
 
-    /**
-     * Internal parameter
-     */
+    /** Internal parameter */
     @SerializedName("id")
     val id: Long,
 
-    /**
-     * Internal parameter
-     */
+    /** Internal parameter */
     @SerializedName("message")
     val message: Float,
 
-    /**
-     * Country code (GB, JP etc.)
-     */
+    /** Country code (GB, JP etc.) */
     @SerializedName("country")
     val countryCode: String,
 
-    /**
-     * Sunrise time, unix, UTC
-     */
+    /** Sunrise time, unix, UTC */
     @SerializedName("sunrise")
     val sunrise: Long,
 
-    /**
-     * Sunset time, unix, UTC
-     */
+    /** Sunset time, unix, UTC */
     @SerializedName("sunset")
     val sunset: Long
 )

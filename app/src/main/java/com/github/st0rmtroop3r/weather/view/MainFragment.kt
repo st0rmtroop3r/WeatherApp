@@ -1,6 +1,7 @@
 package com.github.st0rmtroop3r.weather.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -39,15 +40,20 @@ class MainFragment : DaggerFragment() {
 
         viewModel = ViewModelProviders.of(this, viewModelFactory).get(MainViewModel::class.java)
 
+        viewModel.citiesList.observe(this,
+            Observer { cities -> Log.w(TAG, "citiesList.observe: " + cities.toString()) })
+
         viewModel.currentWeather.observe(this,
-            Observer { weather -> textView?.text = weather.toString() })
+            Observer {
+                textView?.text = ""
+                it.forEach {
+                    textView?.append(it.toString())
+                    textView?.append("\n\n")
+                }
+                Log.w(TAG, "weatherListLive.observe: ${it?.toString()}")
+            })
 
         viewModel.currentWeatherError.observe(this,
             Observer { error -> textView?.text = "Error: ${error}" })
-    }
-
-    override fun onResume() {
-        super.onResume()
-        viewModel.onResume()
     }
 }

@@ -2,12 +2,11 @@ package com.github.st0rmtroop3r.weather.model.repository
 
 import com.github.st0rmtroop3r.weather.model.db.WeatherDao
 import com.github.st0rmtroop3r.weather.model.entities.City
-import com.github.st0rmtroop3r.weather.model.entities.WeatherResponse
+import com.github.st0rmtroop3r.weather.model.entities.Weather
 import com.github.st0rmtroop3r.weather.model.network.OpenWeatherMapApi
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.runBlocking
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.IO
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class WeatherRepository
@@ -18,39 +17,38 @@ class WeatherRepository
         private val openWeatherMapApi : OpenWeatherMapApi
     ) {
 
-    companion object {
-        val tag = WeatherRepository::class.java.simpleName
-    }
-
-    fun addCity(city: City) = asyncAwait {
-        weatherDao.addCity(city)
-    }
-
-    fun getCities() = asyncAwait {
-        weatherDao.getCities()
-    }
-
-    fun removeCity(city: City) = asyncAwait {
-        weatherDao.removeCity(city)
-    }
-
-    fun getCachedWeather(citiesIds: List<Long>): List<WeatherResponse> {
-        // todo
-        return listOf()
-    }
-
-    fun getCurrentWeather(cityName: String): WeatherResponse {
-        val deferredWeather = openWeatherMapApi.getWeather(cityName)
-        runBlocking {
-            deferredWeather.await()
+    suspend fun addCity(city: City) {
+        withContext(Dispatchers.IO) {
+            weatherDao.addCity(city)
         }
-        return deferredWeather.getCompleted()
     }
 
-    fun <T> asyncAwait(block: suspend CoroutineScope.() -> T) = runBlocking{
-        GlobalScope.async {
-            return@async block.invoke(this)
-        }.await()
+    fun citiesLiveData() = weatherDao.getCities()
+
+    fun removeCity(city: City) = weatherDao.removeCity(city)
+
+    fun weatherList() = weatherDao.getWeatherList()
+
+    suspend fun deleteWeather(weather: Weather) {
+        withContext(Dispatchers.IO) {
+            weatherDao.delete(weather)
+        }
+    }
+
+    suspend fun updateCurrentWeather(citiesIds: String) {
+        val weatherList = requestCurrentWeather(citiesIds)
+        weatherDao.saveWeatherList(weatherList)
+    }
+
+    private suspend fun requestCurrentWeather(citiesIds: String): List<Weather> {
+
+        val deferredWeatherList = openWeatherMapApi.getWeathers(citiesIds)
+        deferredWeatherList.await()
+        return deferredWeatherList.getCompleted().list
+    }
+
+    companion object {
+        val TAG = WeatherRepository::class.java.simpleName
     }
 
 }

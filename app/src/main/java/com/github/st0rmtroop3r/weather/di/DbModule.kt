@@ -13,9 +13,16 @@ class DbModule {
 
     @Provides
     @Singleton
-    fun provideWeatherDao() : WeatherDao {
+    fun provideWeatherDatabase(): WeatherDatabase {
         return Room.databaseBuilder(WeatherApp.appContext, WeatherDatabase::class.java, "weather-db")
+            .fallbackToDestructiveMigration()
             .build()
-            .getWeatherDao()
     }
+
+    @Provides
+    @Singleton
+    fun provideWeatherDao(weatherDatabase: WeatherDatabase) : WeatherDao {
+        return weatherDatabase.getWeatherDao()
+    }
+
 }

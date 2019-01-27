@@ -8,15 +8,11 @@ import com.google.gson.annotations.SerializedName
  */
 data class Coordinates(
 
-    /**
-     * City geo location, longitude
-     */
+    /** City geo location, longitude */
     @SerializedName("lon")
     val longitude: Float,
 
-    /**
-     * City geo location, latitude
-     */
+    /** City geo location, latitude */
     @SerializedName("lat")
     val latitude: Float
 )

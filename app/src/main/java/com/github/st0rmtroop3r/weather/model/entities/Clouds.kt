@@ -7,9 +7,7 @@ import com.google.gson.annotations.SerializedName
  */
 data class Clouds(
 
-    /**
-     * Cloudiness, %
-     */
+    /** Cloudiness, % */
     @SerializedName("all")
     val percentage: Int
 )

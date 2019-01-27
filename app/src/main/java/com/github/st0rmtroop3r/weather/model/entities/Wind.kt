@@ -7,15 +7,11 @@ import com.google.gson.annotations.SerializedName
  */
 data class Wind(
 
-    /**
-     * Wind speed. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour.
-     */
+    /** Wind speed. Unit Default: meter/sec, Metric: meter/sec, Imperial: miles/hour. */
     @SerializedName("speed")
     val speed: Float,
 
-    /**
-     * Wind direction, degrees (meteorological)
-     */
+    /** Wind direction, degrees (meteorological) */
     @SerializedName("deg")
     val degrees: Int
 )

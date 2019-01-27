@@ -8,15 +8,11 @@ import com.google.gson.annotations.SerializedName
  */
 data class Precipitation(
 
-    /**
-     * Precipitation volume for the last 1 hour
-     */
+    /** Precipitation volume for the last 1 hour */
     @SerializedName("1h")
     val oneHour: String,
 
-    /**
-     * Precipitation volume for the last 3 hours
-     */
+    /** Precipitation volume for the last 3 hours */
     @SerializedName("3h")
     val threeHours: String
 )
