@@ -19,13 +19,19 @@ interface OpenWeatherMapApi {
      * @return WeatherResponse as coroutines Deferred
      */
     @GET( "/$versionPath/weather")
-    fun getWeatherAsync(@Query("q") cityName: String) : Deferred<Weather?>
+    fun getWeatherAsync(
+        @Query("q") cityName: String,
+        @Query("units") units: String = "metric"
+    ) : Deferred<Weather?>
 
     /**
      * Call for current weather data for several city IDs
      */
     @GET("/$versionPath/group")
-    fun getWeatherListAsync(@Query("id") ids: String) : Deferred<WeatherList>
+    fun getWeatherListAsync(
+        @Query("id") ids: String,
+        @Query("units") units: String = "metric"
+    ) : Deferred<WeatherList>
 
     companion object {
 
