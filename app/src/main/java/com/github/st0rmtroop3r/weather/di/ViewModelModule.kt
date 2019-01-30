@@ -2,6 +2,7 @@ package com.github.st0rmtroop3r.weather.di
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.github.st0rmtroop3r.weather.viewmodel.AddWeatherViewModel
 import com.github.st0rmtroop3r.weather.viewmodel.MainViewModel
 import dagger.Binds
 import dagger.MapKey
@@ -33,7 +34,12 @@ abstract class ViewModelModule {
     @Binds
     @IntoMap
     @ViewModelKey(MainViewModel::class)
-    internal abstract fun postListViewModel(viewModel: MainViewModel): ViewModel
+    internal abstract fun postMainViewModel(viewModel: MainViewModel): ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(AddWeatherViewModel::class)
+    internal abstract fun postAddWeatherViewModel(viewModel: AddWeatherViewModel): ViewModel
 
     //Add more ViewModels here
 }

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Weather</string>
+    <string name="city_search_description">Enter city name or a city name and country code separated by comma</string>
+    <string name="city_search_btn_find">find</string>
+    <string name="city_search_input_hint">e.g. London or London,UK</string>
+    <string name="city_search_input_error">Please type a city name</string>
 </resources>

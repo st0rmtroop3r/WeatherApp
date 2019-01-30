@@ -13,5 +13,5 @@ data class Wind(
 
     /** Wind direction, degrees (meteorological) */
     @SerializedName("deg")
-    val degrees: Int
+    val degrees: Float
 )

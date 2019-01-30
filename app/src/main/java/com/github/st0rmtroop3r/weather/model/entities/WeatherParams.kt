@@ -13,7 +13,7 @@ data class WeatherParams(
 
     /** Atmospheric pressure (on the sea level, if there is no sea_level or grnd_level data), hPa */
     @SerializedName("pressure")
-    val pressure: Int,
+    val pressure: Float,
 
     /** Humidity, % */
     @SerializedName("humidity")
@@ -33,9 +33,9 @@ data class WeatherParams(
 
     /** Atmospheric pressure on the sea level, hPa */
     @SerializedName("sea_level")
-    val seaLevel: Int,
+    val seaLevel: Float,
 
     /** Atmospheric pressure on the ground level, hPa */
     @SerializedName("grnd_level")
-    val groundLevel: Int
+    val groundLevel: Float
 )

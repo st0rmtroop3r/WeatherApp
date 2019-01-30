@@ -11,11 +11,6 @@ import retrofit2.http.Query
  */
 interface OpenWeatherMapApi {
 
-    companion object {
-        const val baseUrl = "https://api.openweathermap.org/"
-        const val versionPath = "data/2.5"
-    }
-
     /**
      * Calls for current weather data for a given city name
      *
@@ -24,12 +19,22 @@ interface OpenWeatherMapApi {
      * @return WeatherResponse as coroutines Deferred
      */
     @GET( "/$versionPath/weather")
-    fun getWeather(@Query("q") cityName: String) : Deferred<Weather>
+    fun getWeatherAsync(@Query("q") cityName: String) : Deferred<Weather?>
 
     /**
      * Call for current weather data for several city IDs
      */
     @GET("/$versionPath/group")
-    fun getWeathers(@Query("id") ids: String) : Deferred<WeatherList>
+    fun getWeatherListAsync(@Query("id") ids: String) : Deferred<WeatherList>
+
+    companion object {
+
+        const val baseUrl = "https://api.openweathermap.org/"
+        const val versionPath = "data/2.5"
+
+        fun iconUrl(icon: String): String {
+            return "http://openweathermap.org/img/w/$icon.png"
+        }
+    }
 
 }

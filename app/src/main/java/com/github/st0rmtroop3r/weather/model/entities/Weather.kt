@@ -49,7 +49,7 @@ data class Weather (
     /** Weather conditions */
     @SerializedName("weather")
     @TypeConverters(RoomTypeConverter::class)
-    var weather: List<WeatherCondition>,
+    var conditions: List<WeatherCondition>?,
 
     /** Weather main params */
     @SerializedName("main")

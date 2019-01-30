@@ -2,6 +2,7 @@ package com.github.st0rmtroop3r.weather.view
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
 import com.github.st0rmtroop3r.weather.R
 
 class MainActivity : AppCompatActivity() {
@@ -19,6 +20,14 @@ class MainActivity : AppCompatActivity() {
                 .commitNow()
         }
 
+    }
+
+    fun showAddWeatherFragment() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.container, AddWeatherFragment())
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .addToBackStack(null)
+            .commit()
     }
 
 }

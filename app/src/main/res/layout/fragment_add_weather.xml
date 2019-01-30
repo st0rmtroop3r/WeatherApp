@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#00FFFFFF"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fff"
+        android:elevation="16dp"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <TextView
+            android:id="@+id/txt_search_city_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="#F0FFF0"
+            android:text="@string/city_search_description"
+            android:textColor="#646464"
+            android:textSize="16sp" />
+
+        <EditText
+            android:id="@+id/edt_search_city_name"
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_margin="16dp"
+            android:background="#FFF4CD"
+            android:hint="@string/city_search_input_hint"
+            android:inputType="textCapWords"
+            android:maxLines="1" />
+
+        <Button
+            android:id="@+id/btn_search_city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/city_search_btn_find" />
+
+        <ProgressBar
+            android:id="@+id/pgb_searching_city_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:id="@+id/txv_search_city_error"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textColor="#AC4F4F" />
+
+        <include layout="@layout/view_search_result" />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_tint"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#34000000" />
+
+</LinearLayout>

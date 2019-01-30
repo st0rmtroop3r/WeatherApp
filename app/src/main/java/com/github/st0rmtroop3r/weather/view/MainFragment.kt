@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProviders
 import com.github.st0rmtroop3r.weather.R
 import com.github.st0rmtroop3r.weather.viewmodel.MainViewModel
 import dagger.android.support.DaggerFragment
+import kotlinx.android.synthetic.main.main_fragment.*
 import javax.inject.Inject
 
 class MainFragment : DaggerFragment() {
@@ -55,5 +56,9 @@ class MainFragment : DaggerFragment() {
 
         viewModel.currentWeatherError.observe(this,
             Observer { error -> textView?.text = "Error: ${error}" })
+
+        fab_add_weather?.setOnClickListener {
+            (activity as MainActivity).showAddWeatherFragment()
+        }
     }
 }
