@@ -1,7 +1,7 @@
 package com.github.st0rmtroop3r.weather.viewmodel.usecase
 
 import android.util.Log
-import com.github.st0rmtroop3r.weather.model.entities.City
+import com.github.st0rmtroop3r.weather.model.entities.Weather
 import com.github.st0rmtroop3r.weather.model.repository.WeatherRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -13,17 +13,27 @@ class UpdateCurrentWeatherUseCase
     @Inject
     constructor(private val weatherRepository : WeatherRepository) {
 
-    fun execute(cities: List<City>?, scope: CoroutineScope) {
+    fun execute(
+        weatherList: List<Weather>?,
+        scope: CoroutineScope,
+        onSuccess: (() -> Unit)?,
+        onError: ((Exception) -> Unit)?
+    ) {
 
-        Log.d(TAG, "citiesList: ${cities?.toString()}")
-        if (cities == null || cities.isEmpty()) { return }
+        if (weatherList.isNullOrEmpty()) return
 
         val stringBuilder = StringBuilder()
-        cities.forEach { stringBuilder.append(it.id).append(",") }
+        weatherList.forEach { stringBuilder.append(it.cityId).append(",") }
         stringBuilder.deleteCharAt(stringBuilder.lastIndex)
 
         scope.launch(Dispatchers.IO) {
-            weatherRepository.updateCurrentWeather(stringBuilder.toString())
+            try {
+                weatherRepository.updateCurrentWeather(stringBuilder.toString())
+                onSuccess?.invoke()
+            } catch (e: Exception) {
+                Log.e(TAG, "execute: ", e)
+                onError?.invoke(e)
+            }
         }
     }
 

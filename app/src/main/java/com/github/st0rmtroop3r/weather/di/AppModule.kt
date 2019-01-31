@@ -4,6 +4,8 @@ import android.content.Context
 import android.content.res.Resources
 import android.view.inputmethod.InputMethodManager
 import com.github.st0rmtroop3r.weather.WeatherApp
+import com.github.st0rmtroop3r.weather.model.repository.WeatherRepository
+import com.github.st0rmtroop3r.weather.view.adapter.CurrentWeatherRecyclerAdapter
 import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
@@ -29,5 +31,13 @@ class AppModule {
         val picasso = Picasso.get()
         picasso.isLoggingEnabled = true
         return picasso
+    }
+
+    @Provides
+    fun provideCurrentWeatherRecyclerAdapter(
+        weatherRepository: WeatherRepository,
+        resources: Resources
+    ): CurrentWeatherRecyclerAdapter {
+        return CurrentWeatherRecyclerAdapter(weatherRepository, resources)
     }
 }

@@ -4,4 +4,7 @@
     <string name="city_search_btn_find">find</string>
     <string name="city_search_input_hint">e.g. London or London,UK</string>
     <string name="city_search_input_error">Please type a city name</string>
+    <string name="city_name_with_country_code">%s, %s</string>
+    <string name="temperature_pattern_celcius">%d°C</string>
+    <string name="error_snack_action_name">dismiss</string>
 </resources>

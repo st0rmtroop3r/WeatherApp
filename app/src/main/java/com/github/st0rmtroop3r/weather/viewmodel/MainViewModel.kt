@@ -25,13 +25,28 @@ class MainViewModel
     val citiesList = weatherRepository.citiesLiveData()
     val currentWeather = weatherRepository.weatherList()
     val currentWeatherError = MutableLiveData<String>()
+    val updateProgressIsVisible = MutableLiveData<Boolean>()
 
     init {
         addCityUseCase.execute(City(703448, "Kyiv"), viewModelScope)
     }
 
     fun updateData() {
-        updateCurrentWeatherUseCase.execute(citiesList.value, viewModelScope)
+        updateProgressIsVisible.value = true
+        updateCurrentWeatherUseCase.execute(
+            currentWeather.value,
+            viewModelScope,
+            { onUpdateSuccess() },
+            { onUpdateError(it) })
+    }
+
+    private fun onUpdateSuccess() {
+        updateProgressIsVisible.postValue(false)
+    }
+
+    fun onUpdateError(e: Exception) {
+        updateProgressIsVisible.postValue(false)
+        currentWeatherError.postValue(e.message)
     }
 
     override fun onCleared() {
