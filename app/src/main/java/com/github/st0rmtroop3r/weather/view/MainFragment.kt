@@ -2,9 +2,7 @@ package com.github.st0rmtroop3r.weather.view
 
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
@@ -40,6 +38,7 @@ class MainFragment : DaggerFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        setHasOptionsMenu(true)
         return inflater.inflate(R.layout.main_fragment, container, false)
     }
 
@@ -54,6 +53,12 @@ class MainFragment : DaggerFragment() {
             }
         } )
 
+        srl_current_weather.setOnRefreshListener { updateWeatherData() }
+
+        fab_add_weather?.setOnClickListener {
+            (activity as MainActivity).showAddWeatherFragment()
+        }
+
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(MainViewModel::class.java)
 
@@ -66,11 +71,23 @@ class MainFragment : DaggerFragment() {
         viewModel.currentWeatherError.observe(this,
             Observer { showErrorSnackbar(it) })
 
-        btn_update.setOnClickListener { viewModel.updateData() }
+        viewModel.updateProgressIsVisible.observe(this, Observer {
+            srl_current_weather.isRefreshing = it
+        })
+    }
 
-        fab_add_weather?.setOnClickListener {
-            (activity as MainActivity).showAddWeatherFragment()
-        }
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu_main, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem) = when (item.itemId) {
+        R.id.mi_update_weather -> updateWeatherData()
+        else -> super.onOptionsItemSelected(item)
+    }
+
+    private fun updateWeatherData(): Boolean {
+        viewModel.onUpdateWeatherTriggered()
+        return true
     }
 
     private fun showErrorSnackbar(message: String) {

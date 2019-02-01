@@ -31,7 +31,7 @@ class MainViewModel
         addCityUseCase.execute(City(703448, "Kyiv"), viewModelScope)
     }
 
-    fun updateData() {
+    fun onUpdateWeatherTriggered() {
         updateProgressIsVisible.value = true
         updateCurrentWeatherUseCase.execute(
             currentWeather.value,
