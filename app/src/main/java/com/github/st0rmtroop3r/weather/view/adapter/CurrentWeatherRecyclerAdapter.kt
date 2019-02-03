@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.github.st0rmtroop3r.weather.R
 import com.github.st0rmtroop3r.weather.model.entities.Weather
@@ -46,9 +47,23 @@ class CurrentWeatherRecyclerAdapter
     }
 
     fun setWeatherList(newWeatherList: List<Weather>) {
+        val callback = CurrentWeatherDiffUtilCallback(weatherList, newWeatherList)
+        val diffResult = DiffUtil.calculateDiff(callback)
         weatherList.clear()
         weatherList.addAll(newWeatherList)
-        notifyDataSetChanged()
+        diffResult.dispatchUpdatesTo(this)
+    }
+
+    fun getItemAt(position: Int) = weatherList.get(position)
+
+    fun removeItem(position: Int) {
+        weatherList.removeAt(position)
+        notifyItemRemoved(position)
+    }
+
+    fun addItem(weather: Weather, adapterPosition: Int) {
+        weatherList.add(adapterPosition, weather)
+        notifyItemInserted(adapterPosition)
     }
 
     class Holder(item: View) : RecyclerView.ViewHolder(item)

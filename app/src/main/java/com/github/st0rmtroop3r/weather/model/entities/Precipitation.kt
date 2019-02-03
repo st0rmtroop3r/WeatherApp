@@ -10,9 +10,9 @@ data class Precipitation(
 
     /** Precipitation volume for the last 1 hour */
     @SerializedName("1h")
-    val oneHour: String,
+    val oneHour: String?,
 
     /** Precipitation volume for the last 3 hours */
     @SerializedName("3h")
-    val threeHours: String
+    val threeHours: String?
 )

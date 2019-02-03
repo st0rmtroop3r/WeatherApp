@@ -1,16 +1,19 @@
 package com.github.st0rmtroop3r.weather.view
 
+import android.graphics.Canvas
 import android.os.Bundle
 import android.util.Log
 import android.view.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener
 import com.github.st0rmtroop3r.weather.R
 import com.github.st0rmtroop3r.weather.WeatherApp
+import com.github.st0rmtroop3r.weather.model.entities.Weather
 import com.github.st0rmtroop3r.weather.view.adapter.CurrentWeatherRecyclerAdapter
 import com.github.st0rmtroop3r.weather.viewmodel.MainViewModel
 import com.google.android.material.snackbar.BaseTransientBottomBar
@@ -66,7 +69,12 @@ class MainFragment : DaggerFragment() {
             Observer { Log.w(TAG, "citiesList.observe: $it") })
 
         viewModel.currentWeather.observe(this,
-            Observer { recyclerAdapter.setWeatherList(it) })
+            Observer {
+                val sb = StringBuilder()
+                it.forEach { sb.append(it.cityName).append(" ").append(it.system.countryCode).append(", ") }
+                Log.w(TAG, "currentWeather.observe: size ${it.size}: ${sb}")
+                recyclerAdapter.setWeatherList(it)
+            })
 
         viewModel.currentWeatherError.observe(this,
             Observer { showErrorSnackbar(it) })
@@ -74,6 +82,8 @@ class MainFragment : DaggerFragment() {
         viewModel.updateProgressIsVisible.observe(this, Observer {
             srl_current_weather.isRefreshing = it
         })
+
+        ItemTouchHelper( RecyclerTouchCallback() ).attachToRecyclerView(rcv_current_weather)
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -95,5 +105,79 @@ class MainFragment : DaggerFragment() {
         snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
         snackbar.setAction(getString(R.string.error_snack_action_name)) { snackbar.dismiss() }
         snackbar.show()
+    }
+
+    private fun showWeatherDeletedSnackbar(
+        weather: Weather,
+        delay: Int,
+        adapterPosition: Int
+    ) {
+        val city = weather.cityName
+        val country = weather.system.countryCode.capitalize()
+        val message = resources.getString(R.string.snack_weather_removed_msg, city, country)
+        val actionUndo = resources.getString(R.string.snack_weather_removed_btn)
+        val snackbar = Snackbar.make(coordinator_layout, message, delay)
+        snackbar.animationMode = BaseTransientBottomBar.ANIMATION_MODE_SLIDE
+        snackbar.setAction(actionUndo) { undoDelete(weather, adapterPosition) }
+        snackbar.show()
+    }
+
+    private fun undoDelete(
+        weather: Weather,
+        adapterPosition: Int
+    ) {
+        viewModel.undoDelete(weather)
+        recyclerAdapter.addItem(weather, adapterPosition)
+    }
+
+    private fun onWeatherSwiped(adapterPosition: Int) {
+        val weather = recyclerAdapter.getItemAt(adapterPosition)
+        val delay = resources.getInteger(R.integer.delete_weather_delay)
+        showWeatherDeletedSnackbar(weather, delay, adapterPosition)
+        viewModel.onDeleteWeatherTriggered(weather, delay)
+        recyclerAdapter.removeItem(adapterPosition)
+    }
+
+    private inner class RecyclerTouchCallback :
+        ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+
+        override fun onMove(
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            target: RecyclerView.ViewHolder
+        ): Boolean {
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            onWeatherSwiped(viewHolder.adapterPosition)
+        }
+
+        override fun onChildDraw(
+            c: Canvas,
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            dX: Float,
+            dY: Float,
+            actionState: Int,
+            isCurrentlyActive: Boolean
+        ) {
+            super.onChildDraw(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+
+            val view = viewHolder.itemView
+
+            val background = resources.getDrawable(R.drawable.rectangle_round_corners_8dp)
+            background.setBounds(view.left, view.top, view.right, view.bottom)
+
+            val icon = resources.getDrawable(R.drawable.ic_delete_black_24dp)
+            val iconTop = view.top + (view.height - icon.intrinsicHeight) / 2
+            val iconBottom = iconTop + icon.intrinsicHeight
+            val iconLeft = view.left + icon.intrinsicWidth;
+            val iconRight = iconLeft + icon.intrinsicWidth;
+            icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+
+            background.draw(c)
+            icon.draw(c)
+        }
     }
 }

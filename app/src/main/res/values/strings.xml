@@ -7,5 +7,7 @@
     <string name="city_name_with_country_code">%s, %s</string>
     <string name="temperature_pattern_celcius">%d°C</string>
     <string name="error_snack_action_name">dismiss</string>
+    <string name="snack_weather_removed_msg">%s, %s weather removed</string>
+    <string name="snack_weather_removed_btn">undo</string>
     <string name="menu_item_update">Update</string>
 </resources>
