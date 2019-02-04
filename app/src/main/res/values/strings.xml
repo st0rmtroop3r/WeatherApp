@@ -10,4 +10,5 @@
     <string name="snack_weather_removed_msg">%s, %s weather removed</string>
     <string name="snack_weather_removed_btn">undo</string>
     <string name="menu_item_update">Update</string>
+    <string name="icon_move_content_description">icon move</string>
 </resources>

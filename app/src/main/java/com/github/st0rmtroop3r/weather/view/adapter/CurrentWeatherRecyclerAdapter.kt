@@ -10,6 +10,7 @@ import com.github.st0rmtroop3r.weather.R
 import com.github.st0rmtroop3r.weather.model.entities.Weather
 import com.github.st0rmtroop3r.weather.model.repository.WeatherRepository
 import kotlinx.android.synthetic.main.view_weather_short_data.view.*
+import java.util.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
 
@@ -19,7 +20,7 @@ class CurrentWeatherRecyclerAdapter
         private val resources: Resources
 ) : RecyclerView.Adapter<CurrentWeatherRecyclerAdapter.Holder>() {
 
-    private val weatherList = ArrayList<Weather>()
+    val weatherList = ArrayList<Weather>()
 
     override fun getItemCount() = weatherList.size
 
@@ -64,6 +65,11 @@ class CurrentWeatherRecyclerAdapter
     fun addItem(weather: Weather, adapterPosition: Int) {
         weatherList.add(adapterPosition, weather)
         notifyItemInserted(adapterPosition)
+    }
+
+    fun swap(fromPosition: Int, toPosition: Int) {
+        Collections.swap(weatherList, fromPosition, toPosition)
+        notifyItemMoved(fromPosition, toPosition)
     }
 
     class Holder(item: View) : RecyclerView.ViewHolder(item)

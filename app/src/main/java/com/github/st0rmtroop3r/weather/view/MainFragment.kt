@@ -1,6 +1,8 @@
 package com.github.st0rmtroop3r.weather.view
 
 import android.graphics.Canvas
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -21,6 +23,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 import javax.inject.Inject
+import kotlin.math.absoluteValue
 
 class MainFragment : DaggerFragment() {
 
@@ -138,14 +141,46 @@ class MainFragment : DaggerFragment() {
         recyclerAdapter.removeItem(adapterPosition)
     }
 
+    private fun onRecyclerViewItemDropped() {
+        viewModel.onWeatherListOrderChanged(recyclerAdapter.weatherList)
+    }
+
     private inner class RecyclerTouchCallback :
-        ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
+        ItemTouchHelper.SimpleCallback(ItemTouchHelper.UP or ItemTouchHelper.DOWN, ItemTouchHelper.RIGHT) {
+
+        var elevation: Float = 0f
+        val idle = resources.getDimension(R.dimen.weather_card_elevation)
+        val move = resources.getDimension(R.dimen.weather_card_elevation_move)
+
+        override fun onSelectedChanged(viewHolder: RecyclerView.ViewHolder?, actionState: Int) {
+            super.onSelectedChanged(viewHolder, actionState)
+            if (actionState == ItemTouchHelper.ACTION_STATE_IDLE) {
+                elevation = idle
+                onRecyclerViewItemDropped()
+            } else {
+                elevation = move
+            }
+        }
+
+        override fun onChildDrawOver(
+            c: Canvas,
+            recyclerView: RecyclerView,
+            viewHolder: RecyclerView.ViewHolder,
+            dX: Float,
+            dY: Float,
+            actionState: Int,
+            isCurrentlyActive: Boolean
+        ) {
+            super.onChildDrawOver(c, recyclerView, viewHolder, dX, dY, actionState, isCurrentlyActive)
+            viewHolder.itemView.elevation = elevation
+        }
 
         override fun onMove(
             recyclerView: RecyclerView,
             viewHolder: RecyclerView.ViewHolder,
             target: RecyclerView.ViewHolder
         ): Boolean {
+            recyclerAdapter.swap(viewHolder.adapterPosition, target.adapterPosition)
             return true
         }
 
@@ -168,16 +203,22 @@ class MainFragment : DaggerFragment() {
 
             val background = resources.getDrawable(R.drawable.rectangle_round_corners_8dp)
             background.setBounds(view.left, view.top, view.right, view.bottom)
+            var icon: Drawable? = null
 
-            val icon = resources.getDrawable(R.drawable.ic_delete_black_24dp)
-            val iconTop = view.top + (view.height - icon.intrinsicHeight) / 2
-            val iconBottom = iconTop + icon.intrinsicHeight
-            val iconLeft = view.left + icon.intrinsicWidth;
-            val iconRight = iconLeft + icon.intrinsicWidth;
-            icon.setBounds(iconLeft, iconTop, iconRight, iconBottom);
+            if (dX.absoluteValue > 0) {
+                icon = resources.getDrawable(R.drawable.ic_delete_black_24dp)
+                val iconTop = view.top + (view.height - icon.intrinsicHeight) / 2
+                val iconBottom = iconTop + icon.intrinsicHeight
+                val iconLeft = view.left + icon.intrinsicWidth
+                val iconRight = iconLeft + icon.intrinsicWidth
+                icon.setBounds(iconLeft, iconTop, iconRight, iconBottom)
+                background.setTint(resources.getColor(R.color.orange))
+            } else if (dY.absoluteValue > 0) {
+                background.setTint(Color.WHITE)
+            }
 
             background.draw(c)
-            icon.draw(c)
+            icon?.draw(c)
         }
     }
 }

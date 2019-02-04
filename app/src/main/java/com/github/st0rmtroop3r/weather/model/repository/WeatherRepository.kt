@@ -5,6 +5,7 @@ import com.github.st0rmtroop3r.weather.model.db.WeatherDao
 import com.github.st0rmtroop3r.weather.model.entities.City
 import com.github.st0rmtroop3r.weather.model.entities.DeletedWeather
 import com.github.st0rmtroop3r.weather.model.entities.Weather
+import com.github.st0rmtroop3r.weather.model.entities.WeatherListOrder
 import com.github.st0rmtroop3r.weather.model.network.OpenWeatherMapApi
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
@@ -59,6 +60,8 @@ class WeatherRepository
         val uri = Uri.parse(url)
         return picasso.load(uri)
     }
+
+    fun saveWeatherListOrder(orders: List<WeatherListOrder>) = weatherDao.saveWeatherListOrder(orders)
 
     private fun scheduleDeletion(delayMillis: Long) {
         if (deletionJob.isActive) deletionJob.cancel()
