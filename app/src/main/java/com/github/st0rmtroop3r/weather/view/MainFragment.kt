@@ -68,9 +68,6 @@ class MainFragment : DaggerFragment() {
         viewModel = ViewModelProviders.of(this, viewModelFactory)
             .get(MainViewModel::class.java)
 
-        viewModel.citiesList.observe(this,
-            Observer { Log.w(TAG, "citiesList.observe: $it") })
-
         viewModel.currentWeather.observe(this,
             Observer {
                 val sb = StringBuilder()

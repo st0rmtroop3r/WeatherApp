@@ -2,7 +2,6 @@ package com.github.st0rmtroop3r.weather.model.repository
 
 import android.net.Uri
 import com.github.st0rmtroop3r.weather.model.db.WeatherDao
-import com.github.st0rmtroop3r.weather.model.entities.City
 import com.github.st0rmtroop3r.weather.model.entities.DeletedWeather
 import com.github.st0rmtroop3r.weather.model.entities.Weather
 import com.github.st0rmtroop3r.weather.model.entities.WeatherListOrder
@@ -26,16 +25,6 @@ class WeatherRepository
     init {
         deletionJob = postponeWeatherDeletion(0)
     }
-
-    suspend fun addCity(city: City) {
-        withContext(Dispatchers.IO) {
-            weatherDao.addCity(city)
-        }
-    }
-
-    fun citiesLiveData() = weatherDao.getCities()
-
-    fun removeCity(city: City) = weatherDao.removeCity(city)
 
     fun addWeather(weather: Weather) = weatherDao.saveWeather(weather)
 
