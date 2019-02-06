@@ -10,11 +10,24 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Removes Weather data and all data related to Weather city id from SQLite database
+ */
+
 class DeleteWeatherUseCase
     @Inject constructor(
         private val weatherRepository: WeatherRepository
     ) {
 
+    /**
+     * Starts delayed Weather deletion using the given coroutine scope
+     *
+     * @param weather the Weather to delete
+     * @param scope coroutine scope that will be used for background DB access
+     * @param delay wait time before deleting marked for deletion Weather (in milliseconds)
+     * @onSuccess (optional) callback to invoke after the Weather was successfully marked for deletion
+     * @onError (optional) callback to invoke if an exception occurred while marking for deletion
+     */
     fun execute(
         weather: Weather,
         scope: CoroutineScope,
@@ -31,6 +44,14 @@ class DeleteWeatherUseCase
         }
     }
 
+    /**
+     * Removes deletion mark for given Weather. This method does not cancel scheduled deletion job
+     *
+     * @param weather the weather to remove from marked for deletion list
+     * @param scope coroutine scope that will be used for background DB access
+     * @onSuccess (optional) callback to invoke after the Weather was successfully unmarked for deletion
+     * @onError (optional) callback to invoke if an exception occurred while unmarking for deletion
+     */
     fun undoDelete(weather: Weather,
                    scope: CoroutineScope,
                    onSuccess: ((Weather) -> Unit)? = null,

@@ -9,10 +9,22 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Updates current weather data
+ */
+
 class UpdateCurrentWeatherUseCase
     @Inject
     constructor(private val weatherRepository : WeatherRepository) {
 
+    /**
+     * Request current weather data for a given Weather list
+     *
+     * @param weatherList the Weather list to update
+     * @param scope scope for background network access
+     * @param onSuccess callback to invoke on request succeed
+     * @param onError callback to invoke on exception occurred
+     */
     fun execute(
         weatherList: List<Weather>?,
         scope: CoroutineScope,

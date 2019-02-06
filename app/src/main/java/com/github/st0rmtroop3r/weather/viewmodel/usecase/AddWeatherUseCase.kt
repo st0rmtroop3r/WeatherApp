@@ -9,11 +9,23 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Adds Weather data to SQLite database
+ */
+
 class AddWeatherUseCase
     @Inject constructor(
         private val weatherRepository: WeatherRepository
     ) {
 
+    /**
+     * Launches a coroutine job to add given Weather to DB storage
+     *
+     * @param weather the weather to add to DB
+     * @param scope scope for background DB access
+     * @param onSuccess (optional) callback to invoke if weather successfully added
+     * @param onError (optional) callback to invoke if exception occurred
+     */
     fun execute(
         weather: Weather?,
         scope: CoroutineScope,

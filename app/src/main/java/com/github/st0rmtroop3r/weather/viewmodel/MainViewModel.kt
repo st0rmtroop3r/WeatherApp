@@ -1,6 +1,5 @@
 package com.github.st0rmtroop3r.weather.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.github.st0rmtroop3r.weather.model.entities.Weather
@@ -46,12 +45,10 @@ class MainViewModel
     }
 
     fun onDeleteWeatherTriggered(weather: Weather, delay: Int) {
-        Log.w(TAG, "onDeleteWeatherTriggered: ${weather.cityName}")
         deleteWeatherUseCase.execute(weather, viewModelScope, delay.toLong())
     }
 
     fun undoDelete(weather: Weather) {
-        Log.w(TAG, "undoDelete: ${weather.cityName}")
         deleteWeatherUseCase.undoDelete(weather, viewModelScope)
     }
 

@@ -8,24 +8,35 @@ import kotlinx.coroutines.*
 import java.util.*
 import javax.inject.Inject
 
+/**
+ * Saves Weather items order to SQLite DB
+ */
+
 class SaveWeatherListOrderUseCase
     @Inject constructor(
         private val weatherRepository: WeatherRepository
     ){
 
+    /**
+     * Takes a list of Weather and saves its order to the DB
+     *
+     * @param weatherList the list of Weather which order must be saved
+     * @param onSuccess (optional) callback to invoke if order successfully saved
+     * @param onError (optional) callback to invoke if exception occurred
+     */
     fun execute(
         weatherList: ArrayList<Weather>,
         onSuccess: (() -> Unit)? = null,
         onError: ((Exception) -> Unit)? = null
     ): Job {
 
-        val orders = ArrayList<WeatherListOrder>()
+        val order = ArrayList<WeatherListOrder>()
         var orderNumber = 0
         weatherList.forEach {
-            orders.add(WeatherListOrder(it.cityId, ++orderNumber))
+            order.add(WeatherListOrder(it.cityId, ++orderNumber))
         }
 
-        return saveWeatherListOrder(orders)
+        return saveWeatherListOrder(order)
     }
 
     private fun saveWeatherListOrder(

@@ -5,7 +5,7 @@ import com.github.st0rmtroop3r.weather.model.db.RoomTypeConverter
 import com.google.gson.annotations.SerializedName
 
 /**
- *  Data class for OpenWeatherMapApi
+ *  Data class for OpenWeatherMapApi and Room database entity
  */
 @Entity(tableName = "weather")
 data class Weather (

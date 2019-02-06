@@ -12,12 +12,24 @@ import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Requests remote API for a current weather
+ */
+
 open class GetCurrentWeatherUseCase
     @Inject constructor(
         private val weatherRepository: WeatherRepository,
         private val resources: Resources
     ) {
 
+    /**
+     * Requests remote API for a current weather for a given city name
+     *
+     * @param text city name
+     * @param scope scope for background network access
+     * @param onSuccess callback to invoke on request succeed
+     * @param onError callback to invoke on exception occurred
+     */
     fun execute(
         text: String,
         scope: CoroutineScope,

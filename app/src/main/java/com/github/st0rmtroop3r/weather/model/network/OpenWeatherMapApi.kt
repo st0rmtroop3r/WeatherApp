@@ -7,16 +7,16 @@ import retrofit2.http.GET
 import retrofit2.http.Query
 
 /**
- * Interface for https://openweathermap.org/ API
+ * REST API Interface for https://openweathermap.org/
  */
 interface OpenWeatherMapApi {
 
     /**
      * Calls for current weather data for a given city name
      *
-     * @param cityName city name and country code (optional) divided by comma, "London" or "London,uk"
-     * @param (optional) OWM api key
-     * @return WeatherResponse as coroutines Deferred
+     * @param cityName city name and country code (optional) separated by comma, "London" or "London,uk"
+     * @param (optional) units format "metric" or "imperial". Default is metric
+     * @return Weather as coroutines Deferred
      */
     @GET( "/$versionPath/weather")
     fun getWeatherAsync(
@@ -25,7 +25,11 @@ interface OpenWeatherMapApi {
     ) : Deferred<Weather?>
 
     /**
-     * Call for current weather data for several city IDs
+     * Calls for current weather data for several city IDs
+     *
+     * @param ids cities ids separated by comma, "1,2,3,4,5"
+     * @param (optional) units format "metric" or "imperial". Default is metric
+     * @return WeatherList as coroutines Deferred
      */
     @GET("/$versionPath/group")
     fun getWeatherListAsync(
