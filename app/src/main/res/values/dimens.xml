@@ -13,4 +13,8 @@
     <dimen name="search_note_text_size">16sp</dimen>
     <dimen name="search_result_margin_horizontal">16dp</dimen>
     <dimen name="search_result_btn_add_margins">8dp</dimen>
+    <dimen name="weather_recycler_padding">8dp</dimen>
+    <dimen name="weather_card_height">156dp</dimen>
+    <dimen name="weather_card_corner_radius">8dp</dimen>
+    <dimen name="weather_card_margin_top">8dp</dimen>
 </resources>

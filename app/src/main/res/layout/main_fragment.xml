@@ -15,8 +15,9 @@
             android:id="@+id/rcv_current_weather"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#fff"
-            android:padding="8dp" />
+            android:background="@color/white"
+            android:clipToPadding="false"
+            android:padding="@dimen/weather_recycler_padding" />
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 

@@ -3,21 +3,20 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="150dp"
-    android:layout_marginTop="8dp"
-    app:cardElevation="@dimen/weather_card_elevation"
-    android:padding="16dp"
-    app:cardBackgroundColor="#E9E9E9"
-    app:cardCornerRadius="8dp">
+    android:layout_height="@dimen/weather_card_height"
+    android:layout_marginTop="@dimen/weather_card_margin_top"
+    app:cardBackgroundColor="@color/light_grey"
+    app:cardCornerRadius="@dimen/weather_card_corner_radius"
+    app:cardElevation="@dimen/weather_card_elevation">
 
     <include layout="@layout/view_weather_short_data" />
 
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_reorder_black_24dp"
         android:layout_gravity="end|center_vertical"
         android:layout_margin="@dimen/icon_move_margin"
-        android:contentDescription="@string/icon_move_content_description" />
+        android:contentDescription="@string/icon_move_content_description"
+        android:src="@drawable/ic_reorder_black_24dp" />
 
 </com.google.android.material.card.MaterialCardView>
