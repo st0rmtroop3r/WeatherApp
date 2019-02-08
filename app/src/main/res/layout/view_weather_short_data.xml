@@ -1,27 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/txv_card_city_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:textSize="32sp"
+        android:layout_marginEnd="48dp"
         android:textStyle="bold"
+        app:autoSizeMaxTextSize="@dimen/weather_card_max_text_size"
+        app:autoSizeMinTextSize="@dimen/weather_card_min_text_size"
+        app:autoSizeTextType="uniform"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <ImageView
         android:id="@+id/imv_card_icon"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="@dimen/weather_card_icon_size"
+        android:layout_height="@dimen/weather_card_icon_size"
+        android:layout_marginStart="@dimen/weather_card_icon_margin_start"
+        android:contentDescription="@string/weather_condition_icon"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txv_card_city_name" />
 
@@ -29,9 +31,8 @@
         android:id="@+id/txv_card_temperature"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="8dp"
-        android:textSize="48sp"
+        android:layout_marginStart="@dimen/weather_card_temperature_margin_start"
+        android:textSize="@dimen/weather_card_temperature_text_size"
         app:layout_constraintBottom_toBottomOf="@+id/imv_card_icon"
         app:layout_constraintStart_toEndOf="@+id/imv_card_icon"
         app:layout_constraintTop_toBottomOf="@+id/txv_card_city_name" />
@@ -40,8 +41,7 @@
         android:id="@+id/txv_card_weather_description"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12sp"
-        app:layout_constraintEnd_toEndOf="@+id/imv_card_icon"
+        android:textSize="@dimen/weather_card_description_text_size"
         app:layout_constraintStart_toStartOf="@+id/imv_card_icon"
         app:layout_constraintTop_toBottomOf="@+id/imv_card_icon" />
 

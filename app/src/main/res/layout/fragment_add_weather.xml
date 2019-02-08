@@ -54,6 +54,7 @@
                 android:hint="@string/city_search_input_hint"
                 android:imeOptions="actionSearch"
                 android:inputType="textCapWords"
+                android:paddingEnd="@dimen/search_text_padding_end"
                 android:maxLines="1" />
 
         </com.google.android.material.textfield.TextInputLayout>

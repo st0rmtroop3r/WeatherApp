@@ -14,4 +14,5 @@
     <string name="weather_search_city_name">City name</string>
     <string name="weather_search_button">search button</string>
     <string name="search_result_btn_add">add</string>
+    <string name="weather_condition_icon">weather condition icon</string>
 </resources>
