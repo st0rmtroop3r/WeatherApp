@@ -11,4 +11,7 @@
     <string name="snack_weather_removed_btn">undo</string>
     <string name="menu_item_update">Update</string>
     <string name="icon_move_content_description">icon move</string>
+    <string name="weather_search_city_name">City name</string>
+    <string name="weather_search_button">search button</string>
+    <string name="search_result_btn_add">add</string>
 </resources>

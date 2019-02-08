@@ -22,18 +22,16 @@ class AddWeatherViewModel @Inject constructor(
     private val viewModelScope = CoroutineScope(Dispatchers.Default + viewModelJob)
 
     val keyboardIsOpen = MutableLiveData<Boolean>()
-    val result = MutableLiveData<Weather>()
-    val resultIsVisible = MutableLiveData<Boolean>()
-    val resultError = MutableLiveData<String>()
-    val resultErrorIsVisible = MutableLiveData<Boolean>()
+    val searchResult = MutableLiveData<Weather?>()
+    val searchError = MutableLiveData<String>()
+    val addWeatherResult = MutableLiveData<String?>()
     val showProgressBar = MutableLiveData<Boolean>()
     val icon = MutableLiveData<RequestCreator?>()
 
     init {
         keyboardIsOpen.value = true
-        resultIsVisible.value = false
-        resultErrorIsVisible.value = false
         showProgressBar.value = false
+        searchResult.value = null
     }
 
     fun onSearchClicked(text: String) {
@@ -43,14 +41,12 @@ class AddWeatherViewModel @Inject constructor(
     }
 
     fun onAddClicked() {
-        addWeatherUseCase.execute(result.value, viewModelScope, onError = { onAddError(it) })
+        addWeatherUseCase.execute(searchResult.value, viewModelScope) { onAddWeatherResult(it) }
     }
 
     private fun onSearchSuccess(weather: Weather) {
-        result.postValue(weather)
-        resultIsVisible.postValue(true)
-        resultError.postValue("")
-        resultErrorIsVisible.postValue(false)
+        searchResult.postValue(weather)
+        searchError.postValue("")
         keyboardIsOpen.postValue(false)
         showProgressBar.postValue(false)
 
@@ -62,17 +58,14 @@ class AddWeatherViewModel @Inject constructor(
     }
 
     private fun onSearchError(exception: Exception) {
-        result.postValue(null)
-        resultIsVisible.postValue(false)
-        resultError.postValue(exception.message)
-        resultErrorIsVisible.postValue(true)
+        searchResult.postValue(null)
+        searchError.postValue(exception.message)
         keyboardIsOpen.postValue(true)
         showProgressBar.postValue(false)
     }
 
-    private fun onAddError(exception: Exception) {
-        resultError.postValue(exception.message)
-        resultErrorIsVisible.postValue(true)
+    private fun onAddWeatherResult(exception: Exception?) {
+        addWeatherResult.postValue(exception?.message)
     }
 
     override fun onCleared() {

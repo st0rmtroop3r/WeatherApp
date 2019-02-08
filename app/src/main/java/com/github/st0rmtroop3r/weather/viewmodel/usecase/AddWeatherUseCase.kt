@@ -23,14 +23,12 @@ class AddWeatherUseCase
      *
      * @param weather the weather to add to DB
      * @param scope scope for background DB access
-     * @param onSuccess (optional) callback to invoke if weather successfully added
-     * @param onError (optional) callback to invoke if exception occurred
+     * @param onResult (optional) callback to invoke when operation succeed or failed
      */
     fun execute(
         weather: Weather?,
         scope: CoroutineScope,
-        onSuccess: ((Weather) -> Unit)? = null,
-        onError: ((Exception) -> Unit)?
+        onResult: ((Exception?) -> Unit)? = null
     ) {
 
         scope.launch(Dispatchers.IO) {
@@ -39,9 +37,10 @@ class AddWeatherUseCase
                 weather?.also {
                     weatherRepository.addWeather(it)
                 } ?: throw NullPointerException("weather is NULL")
+                onResult?.invoke(null)
             } catch (e: Exception) {
                 Log.e(TAG, "execute: ", e)
-                onError?.invoke(e)
+                onResult?.invoke(e)
             }
         }
     }
