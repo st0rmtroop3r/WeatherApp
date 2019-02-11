@@ -54,8 +54,8 @@
                 android:hint="@string/city_search_input_hint"
                 android:imeOptions="actionSearch"
                 android:inputType="textCapWords"
-                android:paddingEnd="@dimen/search_text_padding_end"
-                android:maxLines="1" />
+                android:maxLines="1"
+                android:paddingEnd="@dimen/search_text_padding_end" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
@@ -63,7 +63,6 @@
             android:id="@+id/imv_search_city_weather"
             android:layout_width="@dimen/search_icon_size"
             android:layout_height="@dimen/search_icon_size"
-            android:layout_marginEnd="@dimen/search_icon_margin_end"
             android:contentDescription="@string/weather_search_button"
             android:padding="@dimen/search_icon_padding"
             android:src="@drawable/ic_search_black_24dp"
@@ -78,6 +77,18 @@
             android:layout_marginEnd="@dimen/search_progress_margin_end"
             app:layout_constraintBottom_toBottomOf="@+id/til_city_name"
             app:layout_constraintEnd_toEndOf="@+id/til_city_name"
+            app:layout_constraintTop_toTopOf="@+id/til_city_name" />
+
+        <ImageView
+            android:id="@+id/imv_search_by_location"
+            android:layout_width="@dimen/search_icon_size"
+            android:layout_height="@dimen/search_icon_size"
+            android:contentDescription="@string/weather_search_by_location_button"
+            android:padding="@dimen/search_icon_padding"
+            android:src="@drawable/ic_my_location_black_24dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/til_city_name"
+            app:layout_constraintStart_toStartOf="@+id/til_city_name"
             app:layout_constraintTop_toTopOf="@+id/til_city_name" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

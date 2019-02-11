@@ -16,6 +16,7 @@ buildscript {
     ext.espresso_core_version = '3.1.1'
     ext.room_version = '2.1.0-alpha03'
     ext.picasso_version = '2.71828'
+    ext.play_services_location_version = '16.0.0'
 
     repositories {
         google()

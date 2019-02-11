@@ -30,6 +30,8 @@ class WeatherRepository
 
     fun requestWeatherAsync(cityName: String) = openWeatherMapApi.getWeatherAsync(cityName)
 
+    fun requestWeatherAsync(latitude: Double, longitude: Double) = openWeatherMapApi.getWeatherAsync(latitude, longitude)
+
     fun weatherList() = weatherDao.getWeatherList()
 
     fun deleteWeatherDelayed(cityId: Long, delayMillis: Long) {

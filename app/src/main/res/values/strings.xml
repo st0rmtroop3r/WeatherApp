@@ -12,7 +12,8 @@
     <string name="menu_item_update">Update</string>
     <string name="icon_move_content_description">icon move</string>
     <string name="weather_search_city_name">City name</string>
-    <string name="weather_search_button">search button</string>
+    <string name="weather_search_button">search weather by given city name button</string>
+    <string name="weather_search_by_location_button">get weather by device location button</string>
     <string name="search_result_btn_add">add</string>
     <string name="weather_condition_icon">weather condition icon</string>
 </resources>

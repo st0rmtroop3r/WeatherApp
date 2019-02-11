@@ -7,9 +7,11 @@
     <dimen name="search_icon_margin_end">8dp</dimen>
     <dimen name="search_icon_padding">8dp</dimen>
     <dimen name="search_progress_size">24dp</dimen>
-    <dimen name="search_progress_margin_end">16dp</dimen>
+    <dimen name="search_progress_margin_end">8dp</dimen>
     <dimen name="search_text_layout_margin">16dp</dimen>
-    <dimen name="search_text_padding_end">48dp</dimen>
+    <dimen name="search_text_padding_end">40dp</dimen>
+    <dimen name="search_text_padding_location">40dp</dimen>
+    <dimen name="search_text_padding_no_location">12dp</dimen>
     <dimen name="search_note_padding">16dp</dimen>
     <dimen name="search_note_text_size">16sp</dimen>
     <dimen name="search_result_margin_horizontal">16dp</dimen>

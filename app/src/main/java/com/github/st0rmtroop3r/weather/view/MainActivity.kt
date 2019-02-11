@@ -1,5 +1,6 @@
 package com.github.st0rmtroop3r.weather.view
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentTransaction
@@ -22,12 +23,26 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            AddWeatherFragment.locationSettingsRequestCode -> onLocationSettingsResult(resultCode)
+        }
+    }
+
     fun showAddWeatherFragment() {
         supportFragmentManager.beginTransaction()
-            .add(R.id.container, AddWeatherFragment())
+            .add(R.id.container, AddWeatherFragment(), AddWeatherFragment.TAG)
             .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun onLocationSettingsResult(resultCode: Int) {
+        val fragment = supportFragmentManager.findFragmentByTag(AddWeatherFragment.TAG)
+        fragment?.let {
+            (it as AddWeatherFragment).onLocationSettingsResult(resultCode)
+        }
     }
 
 }

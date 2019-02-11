@@ -37,6 +37,20 @@ interface OpenWeatherMapApi {
         @Query("units") units: String = "metric"
     ) : Deferred<WeatherList>
 
+    /**
+     * Calls for current weather data for a specified geographic coordinates
+     *
+     * @param latitude coordinates of the location of your interest
+     * @param longitude coordinates of the location of your interest
+     * @return Weather as coroutines Deferred
+     */
+    @GET("/$versionPath/weather")
+    fun getWeatherAsync(
+        @Query("lat") latitude: Double,
+        @Query("lon") longitude: Double,
+        @Query("units") units: String = "metric"
+    ) : Deferred<Weather?>
+
     companion object {
 
         const val baseUrl = "https://api.openweathermap.org/"

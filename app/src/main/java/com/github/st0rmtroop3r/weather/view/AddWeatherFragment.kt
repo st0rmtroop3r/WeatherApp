@@ -1,8 +1,11 @@
 package com.github.st0rmtroop3r.weather.view
 
+import android.Manifest
+import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -19,10 +22,10 @@ import androidx.transition.TransitionSet
 import com.github.st0rmtroop3r.weather.R
 import com.github.st0rmtroop3r.weather.model.entities.Weather
 import com.github.st0rmtroop3r.weather.viewmodel.AddWeatherViewModel
+import com.google.android.gms.common.api.ResolvableApiException
 import dagger.android.support.DaggerFragment
 import kotlinx.android.synthetic.main.fragment_add_weather.*
 import kotlinx.android.synthetic.main.view_weather_search_result.*
-
 import kotlinx.android.synthetic.main.view_weather_short_data.*
 import javax.inject.Inject
 import kotlin.math.roundToInt
@@ -67,6 +70,8 @@ class AddWeatherFragment : DaggerFragment() {
 
         btn_add_weather.setOnClickListener { viewModel.onAddClicked() }
 
+        imv_search_by_location.setOnClickListener { viewModel.onLocationClick() }
+
         viewModel.keyboardIsOpen.observe(this, Observer {
             if (it) showKeyboard() else hideKeyboard()
         })
@@ -81,6 +86,44 @@ class AddWeatherFragment : DaggerFragment() {
 
         viewModel.icon.observe(this, Observer { it?.into(imv_card_icon) })
 
+        viewModel.requestLocationPermission.observe(this, Observer { requestLocationPermission(it) })
+
+        viewModel.requestLocationEnable.observe(this, Observer { requestLocationEnable(it) })
+
+        viewModel.isLocationServiceAvailable.observe(this, Observer { isLocationServiceAvailable(it) })
+
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        when (requestCode){
+            locationPermissionRequestCode -> {
+                val granted = (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                viewModel.onLocationPermissionResult(granted)
+            }
+        }
+    }
+
+    private fun requestLocationPermission(requested: Boolean) {
+        if (requested) {
+            requestPermissions(arrayOf(Manifest.permission.ACCESS_FINE_LOCATION), locationPermissionRequestCode)
+        }
+    }
+
+    private fun requestLocationEnable(request: ResolvableApiException?) {
+        if (request is ResolvableApiException) {
+            request.startResolutionForResult(activity, locationSettingsRequestCode)
+        } else {
+            Log.wtf(TAG, "requestLocationEnable: request is NOT ResolvableApiException")
+        }
+    }
+
+    fun onLocationSettingsResult(resultCode: Int) {
+        viewModel.onLocationSettingsResult(resultCode == -1)
     }
 
     private fun close() {
@@ -148,11 +191,24 @@ class AddWeatherFragment : DaggerFragment() {
         }
     }
 
+    private fun isLocationServiceAvailable(available: Boolean) {
+        imv_search_by_location.visibility = if (available) View.VISIBLE else View.GONE
+        val dimen = if (available) R.dimen.search_text_padding_location else R.dimen.search_text_padding_no_location
+        val paddingStart = resources.getDimensionPixelSize(dimen)
+        tiet_city_name.setPadding(
+            paddingStart,
+            tiet_city_name.paddingTop,
+            tiet_city_name.paddingRight,
+            tiet_city_name.paddingBottom)
+    }
+
     private fun showKeyboard() = inputMethodManager.showSoftInput(tiet_city_name, 0)
 
     private fun hideKeyboard() = inputMethodManager.hideSoftInputFromWindow(view?.windowToken, 0)
 
     companion object {
         val TAG = AddWeatherFragment::class.java.simpleName
+        val locationPermissionRequestCode = 200
+        val locationSettingsRequestCode = 201
     }
 }
