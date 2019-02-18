@@ -1,7 +1,7 @@
 package com.github.st0rmtroop3r.weather.model.entities
 
 import androidx.room.*
-import com.github.st0rmtroop3r.weather.model.db.RoomTypeConverter
+import com.github.st0rmtroop3r.weather.model.db.WeatherConditionTypeConverter
 import com.google.gson.annotations.SerializedName
 
 /**
@@ -48,7 +48,7 @@ data class Weather (
 
     /** Weather conditions */
     @SerializedName("weather")
-    @TypeConverters(RoomTypeConverter::class)
+    @TypeConverters(WeatherConditionTypeConverter::class)
     var conditions: List<WeatherCondition>?,
 
     /** Weather main params */

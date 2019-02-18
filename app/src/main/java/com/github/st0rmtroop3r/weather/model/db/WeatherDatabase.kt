@@ -10,7 +10,7 @@ import com.github.st0rmtroop3r.weather.model.entities.WeatherListOrder
 @Database(
     version = 1,
     entities = [Weather::class, DeletedWeather::class, WeatherListOrder::class])
-@TypeConverters(RoomTypeConverter::class)
+@TypeConverters(WeatherConditionTypeConverter::class)
 abstract class WeatherDatabase: RoomDatabase() {
     abstract fun getWeatherDao() : WeatherDao
 }
