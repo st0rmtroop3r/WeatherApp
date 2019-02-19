@@ -39,7 +39,7 @@ open class GetCurrentWeatherUseCase
 
         if (TextUtils.isEmpty(text)) {
             val message = resources.getString(R.string.city_search_input_error)
-            onError.invoke(Exception(message))
+            onError.invoke(IllegalArgumentException(message))
             return
         }
 
