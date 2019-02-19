@@ -55,9 +55,10 @@ class AddWeatherUseCaseTest {
     @Test
     fun test_execution_if_exception_occured_without_callback() {
 
-        doThrow(UnsupportedOperationException()).`when`(weatherRepository).addWeather(weather)
-
         runBlocking {
+
+            doThrow(UnsupportedOperationException()).`when`(weatherRepository).addWeather(weather)
+
             addWeatherUseCase.execute(weather, this)
         }
         assert(true)

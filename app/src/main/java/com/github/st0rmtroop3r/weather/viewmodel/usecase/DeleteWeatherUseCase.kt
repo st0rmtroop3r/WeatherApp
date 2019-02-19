@@ -6,7 +6,6 @@ import com.github.st0rmtroop3r.weather.model.entities.Weather
 import com.github.st0rmtroop3r.weather.model.repository.WeatherRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

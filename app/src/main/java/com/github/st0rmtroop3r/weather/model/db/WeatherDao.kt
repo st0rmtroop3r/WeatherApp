@@ -10,27 +10,27 @@ import com.github.st0rmtroop3r.weather.model.entities.WeatherListOrder
 interface WeatherDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveWeather(weather: Weather)
+    suspend fun saveWeather(weather: Weather)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveWeatherList(weatherList: List<Weather>)
+    suspend fun saveWeatherList(weatherList: List<Weather>)
 
     @Query("SELECT * FROM weather LEFT JOIN deleted ON deleted.city_id = id LEFT JOIN weather_order ON weather_order.city_id = id WHERE deleted.city_id IS NULL ORDER BY order_number")
     fun getWeatherList(): LiveData<List<Weather>>
 
     @Delete
-    fun delete(weather: Weather)
+    suspend fun delete(weather: Weather)
 
     @Query("DELETE FROM weather WHERE id IN (SELECT city_id FROM deleted)")
-    fun deleteMarkedWeather()
+    suspend fun deleteMarkedWeather()
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun markForDeletion(deletedWeather: DeletedWeather)
+    suspend fun markForDeletion(deletedWeather: DeletedWeather)
 
     @Delete
-    fun removeDeletionRecord(deletedWeather: DeletedWeather)
+    suspend fun removeDeletionRecord(deletedWeather: DeletedWeather)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun saveWeatherListOrder(orders: List<WeatherListOrder>)
+    suspend fun saveWeatherListOrder(orders: List<WeatherListOrder>)
 
 }

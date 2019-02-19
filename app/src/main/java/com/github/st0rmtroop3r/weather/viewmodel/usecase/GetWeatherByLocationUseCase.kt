@@ -8,7 +8,6 @@ import com.github.st0rmtroop3r.weather.model.repository.WeatherRepository
 import com.google.android.gms.location.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.IO
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

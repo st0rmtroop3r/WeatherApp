@@ -26,7 +26,7 @@ class WeatherRepository
         deletionJob = postponeWeatherDeletion(0)
     }
 
-    fun addWeather(weather: Weather) = weatherDao.saveWeather(weather)
+    suspend fun addWeather(weather: Weather) = weatherDao.saveWeather(weather)
 
     fun requestWeatherAsync(cityName: String) = openWeatherMapApi.getWeatherAsync(cityName)
 
@@ -34,12 +34,12 @@ class WeatherRepository
 
     fun weatherList() = weatherDao.getWeatherList()
 
-    fun deleteWeatherDelayed(cityId: Long, delayMillis: Long) {
+    suspend fun deleteWeatherDelayed(cityId: Long, delayMillis: Long) {
         scheduleDeletion(delayMillis)
         weatherDao.markForDeletion(DeletedWeather(cityId))
     }
 
-    fun removeDeletionRecord(deletedWeather: DeletedWeather) = weatherDao.removeDeletionRecord(deletedWeather)
+    suspend fun removeDeletionRecord(deletedWeather: DeletedWeather) = weatherDao.removeDeletionRecord(deletedWeather)
 
     suspend fun updateCurrentWeather(citiesIds: String) {
         val weatherList = requestCurrentWeather(citiesIds)
@@ -52,7 +52,7 @@ class WeatherRepository
         return picasso.load(uri)
     }
 
-    fun saveWeatherListOrder(orders: List<WeatherListOrder>) = weatherDao.saveWeatherListOrder(orders)
+    suspend fun saveWeatherListOrder(orders: List<WeatherListOrder>) = weatherDao.saveWeatherListOrder(orders)
 
     private fun scheduleDeletion(delayMillis: Long) {
         if (deletionJob.isActive) deletionJob.cancel()
