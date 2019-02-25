@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/frame_search"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black_translucent_34">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraint_search"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle_round_corners_16dp"
+        android:clickable="true"
+        android:focusable="true"
+        android:paddingBottom="16dp">
+
+        <include
+            layout="@layout/view_weather_search_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/search_result_margin_horizontal"
+            android:layout_marginEnd="@dimen/search_result_margin_horizontal"
+            app:layout_constraintTop_toBottomOf="@+id/til_city_name" />
+
+        <TextView
+            android:id="@+id/txt_search_city_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingStart="@dimen/search_note_padding"
+            android:paddingTop="@dimen/search_note_padding"
+            android:paddingEnd="@dimen/search_note_padding"
+            android:text="@string/city_search_description"
+            android:textColor="@color/grey"
+            android:textSize="@dimen/search_note_text_size"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/til_city_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="@dimen/search_text_layout_margin"
+            android:layout_marginEnd="@dimen/search_text_layout_margin"
+            android:background="@color/white"
+            android:hint="@string/weather_search_city_name"
+            app:errorEnabled="true"
+            app:layout_constraintTop_toBottomOf="@+id/txt_search_city_description">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/tiet_city_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/city_search_input_hint"
+                android:imeOptions="actionSearch"
+                android:inputType="textCapWords"
+                android:maxLines="1"
+                android:paddingEnd="@dimen/search_text_padding_end" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <ImageView
+            android:id="@+id/imv_search_city_weather"
+            android:layout_width="@dimen/search_icon_size"
+            android:layout_height="@dimen/search_icon_size"
+            android:contentDescription="@string/weather_search_button"
+            android:padding="@dimen/search_icon_padding"
+            android:src="@drawable/ic_search_black_24dp"
+            app:layout_constraintBottom_toBottomOf="@+id/til_city_name"
+            app:layout_constraintEnd_toEndOf="@+id/til_city_name"
+            app:layout_constraintTop_toTopOf="@+id/til_city_name" />
+
+        <ProgressBar
+            android:id="@+id/pgb_search"
+            android:layout_width="@dimen/search_progress_size"
+            android:layout_height="@dimen/search_progress_size"
+            android:layout_marginEnd="@dimen/search_progress_margin_end"
+            app:layout_constraintBottom_toBottomOf="@+id/til_city_name"
+            app:layout_constraintEnd_toEndOf="@+id/til_city_name"
+            app:layout_constraintTop_toTopOf="@+id/til_city_name" />
+
+        <ImageView
+            android:id="@+id/imv_search_by_location"
+            android:layout_width="@dimen/search_icon_size"
+            android:layout_height="@dimen/search_icon_size"
+            android:contentDescription="@string/weather_search_by_location_button"
+            android:padding="@dimen/search_icon_padding"
+            android:src="@drawable/ic_my_location_black_24dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/til_city_name"
+            app:layout_constraintStart_toStartOf="@+id/til_city_name"
+            app:layout_constraintTop_toTopOf="@+id/til_city_name" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</FrameLayout>

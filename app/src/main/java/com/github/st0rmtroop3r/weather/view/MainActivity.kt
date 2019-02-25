@@ -1,10 +1,16 @@
-package com.github.st0rmtroop3r.weather
+package com.github.st0rmtroop3r.weather.view
 
-import android.support.v7.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
-import com.github.st0rmtroop3r.weather.ui.main.MainFragment
+import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.FragmentTransaction
+import com.github.st0rmtroop3r.weather.R
 
 class MainActivity : AppCompatActivity() {
+
+    companion object {
+        private val TAG = MainActivity::class.java.simpleName
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -13,6 +19,29 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.container, MainFragment.newInstance())
                 .commitNow()
+        }
+
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        when (requestCode) {
+            AddWeatherFragment.locationSettingsRequestCode -> onLocationSettingsResult(resultCode)
+        }
+    }
+
+    fun showAddWeatherFragment() {
+        supportFragmentManager.beginTransaction()
+            .add(R.id.container, AddWeatherFragment(), AddWeatherFragment.TAG)
+            .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun onLocationSettingsResult(resultCode: Int) {
+        val fragment = supportFragmentManager.findFragmentByTag(AddWeatherFragment.TAG)
+        fragment?.let {
+            (it as AddWeatherFragment).onLocationSettingsResult(resultCode)
         }
     }
 

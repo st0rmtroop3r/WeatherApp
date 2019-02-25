@@ -1,3 +1,19 @@
 <resources>
     <string name="app_name">Weather</string>
+    <string name="city_search_description">Enter city name or a city name and country code separated by comma</string>
+    <string name="city_search_btn_find">find</string>
+    <string name="city_search_input_hint">e.g. London or London,UK</string>
+    <string name="city_search_input_error">Please type a city name</string>
+    <string name="city_name_with_country_code">%s, %s</string>
+    <string name="temperature_pattern_celcius">%d°C</string>
+    <string name="error_snack_action_name">dismiss</string>
+    <string name="snack_weather_removed_msg">%s, %s weather removed</string>
+    <string name="snack_weather_removed_btn">undo</string>
+    <string name="menu_item_update">Update</string>
+    <string name="icon_move_content_description">icon move</string>
+    <string name="weather_search_city_name">City name</string>
+    <string name="weather_search_button">search weather by given city name button</string>
+    <string name="weather_search_by_location_button">get weather by device location button</string>
+    <string name="search_result_btn_add">add</string>
+    <string name="weather_condition_icon">weather condition icon</string>
 </resources>
